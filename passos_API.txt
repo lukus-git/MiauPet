@@ -31,6 +31,7 @@
     dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 9.0.10
     dotnet add package System.IdentityModel.Tokens.Jwt --version 8.14.0
     dotnet add package Pomelo.EntityFrameworkCore.MySql --version 9.0.0
+    dotnet add package Swashbuckle.AspNetCore --version 9.0.6
 
 
 9. Criar na pasta Models, as classes do diagrama, que está na Docs (Categoria, Produto, Usuario);
@@ -79,8 +80,8 @@ public class AppDbContext : IdentityDbContext<Usuario>
             },
             new IdentityRole() {
                Id = "ddf093a6-6cb5-4ff7-9a64-83da34aee005",
-               Name = "Usuário",
-               NormalizedName = "USUÁRIO"
+               Name = "Cliente",
+               NormalizedName = "CLIENTE"
             },
         ];
         builder.Entity<IdentityRole>().HasData(roles);
@@ -293,7 +294,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "GStore v1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "<NOME DO PROJETO> v1");
         c.RoutePrefix = string.Empty;
     });
 }
@@ -447,6 +448,7 @@ public class UserDto
     public string Nome { get; set; } 
     public DateTime? DataNascimento { get; set; }
     public string Foto { get; set; } 
+    public string Perfil { get; set; }
 }
 
 public class AuthResponseDto
@@ -463,7 +465,7 @@ public class AuthResponseDto
 
 
 21. Criar na pasta Interfaces a interface IFileService:
-namespace GStore.API.Services.Interfaces;
+namespace <NOME DO PROJETO>.API.Services.Interfaces;
 
 public interface IFileService
 {
@@ -474,12 +476,169 @@ public interface IFileService
 
 
 22. Criar na pasta Implementations a classe FileService:
-using Microsoft.AspNetCore.Identity;
-using GStore.API.DTOs;
-using GStore.API.Services.Interfaces;
-using GStore.API.Models;
+using <NOME DO PROJETO>.API.Services.Interfaces;
 
-namespace GStore.API.Services.Implementations;
+namespace <NOME DO PROJETO>.API.Services.Implementations;
+
+public class FileService : IFileService
+{
+    private readonly IWebHostEnvironment _environment;
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public FileService(IWebHostEnvironment environment, IHttpContextAccessor httpContextAccessor)
+    {
+        _environment = environment;
+        _httpContextAccessor = httpContextAccessor;
+    }
+
+    public async Task<string> SaveFileAsync(IFormFile file, string subDirectory)
+    {
+        if (file == null || file.Length == 0)
+            return null;
+
+        // Criar diretório se não existir
+        var uploadsPath = Path.Combine(_environment.WebRootPath, subDirectory);
+        if (!Directory.Exists(uploadsPath))
+            Directory.CreateDirectory(uploadsPath);
+
+        // Gerar nome único para o arquivo
+        var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+        var filePath = Path.Combine(subDirectory, fileName); // Salva o path relativo
+        var fullPath = Path.Combine(_environment.WebRootPath, filePath);
+
+        // Salvar arquivo
+        using (var stream = new FileStream(fullPath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+
+        return filePath; // Retorna o path relativo: "img/usuarios/arquivo.png"
+    }
+
+    public async Task<bool> DeleteFileAsync(string filePath)
+    {
+        if (string.IsNullOrEmpty(filePath))
+            return false;
+
+        var fullPath = Path.Combine(_environment.WebRootPath, filePath);
+        if (File.Exists(fullPath))
+        {
+            File.Delete(fullPath);
+            return true;
+        }
+        return false;
+    }
+
+    public string GetFileUrl(string filePath)
+    {
+        if (string.IsNullOrEmpty(filePath))
+            return null;
+
+        var request = _httpContextAccessor.HttpContext.Request;
+        return $"{request.Scheme}://{request.Host}/{filePath.Replace("\\", "/")}";
+    }
+}
+
+
+23. Criar a seguinte estrutura de pastas:
+    <NOME DO PROJETO>.API
+        wwwroot
+            img
+                usuarios
+                produtos
+
+    Adicionar as imagens dos produtos na pasta produtos, e sua foto de usuário na pasta usuario
+
+
+24. Criar na pasta Interfaces a interface IJwtService.cs:
+using <NOME DO PROJETO>.API.DTOs;
+
+namespace <NOME DO PROJETO>.API.Services.Interfaces;
+
+public interface IJwtService
+{
+    string GenerateToken(UserDto user);
+}
+
+
+25. Criar na pasta Interface a interface IAuthService.cs:
+using <NOME DO PROJETO>.API.DTOs;
+
+namespace <NOME DO PROJETO>.API.Services.Interfaces;
+
+public interface IAuthService
+{
+    Task<AuthResponseDto> RegisterAsync(RegisterDto registerDto);
+    Task<AuthResponseDto> LoginAsync(LoginDto loginDto);
+    Task<UserDto> GetUserByIdAsync(string userId);
+}
+
+
+26. Criar na pasta Implementations a classe JwtService.cs:
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using <NOME DO PROJETO>.API.Services.Interfaces;
+using <NOME DO PROJETO>.API.DTOs;
+
+namespace <NOME DO PROJETO>.API.Services.Implementations;
+
+public class JwtService : IJwtService
+{
+    private readonly IConfiguration _configuration;
+
+    public JwtService(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
+
+    public string GenerateToken(UserDto user)
+    {
+        var jwtSettings = _configuration.GetSection("JwtSettings");
+        var secretKey = jwtSettings["SecretKey"];
+        var issuer = jwtSettings["Issuer"];
+        var audience = jwtSettings["Audience"];
+        var expirationMinutes = int.Parse(jwtSettings["ExpirationInMinutes"]!);
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey!));
+        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        var claims = new[]
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.Id),
+            new Claim(ClaimTypes.Email, user.Email!),
+            new Claim(ClaimTypes.Name, user.Nome),
+            new Claim("foto", user.Foto ?? "/img/usuarios/no-photo.png"),
+            new Claim(ClaimTypes.Role, user.Perfil),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
+        };
+
+        var token = new JwtSecurityToken(
+            issuer: issuer,
+            audience: audience,
+            claims: claims,
+            expires: DateTime.UtcNow.AddMinutes(expirationMinutes),
+            signingCredentials: credentials
+        );
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+}
+
+
+EXTRA: COPIAR DA REDE A PASTA HELPERS PARA SEU PROJETO.API
+
+
+27. Criar na pasta Implementations a classe AuthService.cs:
+using Microsoft.AspNetCore.Identity;
+using <NOME DO PROJETO>.API.DTOs;
+using <NOME DO PROJETO>.API.Services.Interfaces;
+using <NOME DO PROJETO>.API.Models;
+using <NOME DO PROJETO>.API.Helpers;
+
+namespace <NOME DO PROJETO>.API.Services.Implementations;
 
 public class AuthService : IAuthService
 {
@@ -506,7 +665,7 @@ public class AuthService : IAuthService
         var existingUser = await _userManager.FindByEmailAsync(registerDto.Email);
         if (existingUser != null)
         {
-            return null;
+            throw new ArgumentException("Email já está em uso.");
         }
 
         // Salvar a foto se existir
@@ -522,7 +681,7 @@ public class AuthService : IAuthService
             Email = registerDto.Email,
             Nome = registerDto.Nome,
             DataNascimento = registerDto.DataNascimento,
-            Foto = fotoPath // Armazena "img/usuarios/guid.ext"
+            Foto = fotoPath
         };
 
         var result = await _userManager.CreateAsync(user, registerDto.Senha);
@@ -530,18 +689,23 @@ public class AuthService : IAuthService
         {
             if (fotoPath != null)
                 await _fileService.DeleteFileAsync(fotoPath);
-            return null;
+
+            var errors = string.Join(", ", result.Errors.Select(e => TranslateIdentityErrors.TranslateErrorMessage(e.Code)));
+            throw new ArgumentException($"Falha ao criar usuário: {errors}");
         }
 
-        var token = _jwtService.GenerateToken(user);
+        await _userManager.AddToRoleAsync(user, "Cliente");
+
         var userDto = new UserDto
         {
             Id = user.Id,
             Email = user.Email,
             Nome = user.Nome,
             DataNascimento = user.DataNascimento,
-            Foto = fotoPath != null ? _fileService.GetFileUrl(fotoPath) : null
+            Foto = fotoPath != null ? _fileService.GetFileUrl(fotoPath) : null,
+            Perfil = string.Join(", ", await _userManager.GetRolesAsync(user))
         };
+        var token = _jwtService.GenerateToken(userDto);
 
         return new AuthResponseDto
         {
@@ -556,24 +720,25 @@ public class AuthService : IAuthService
         var user = await _userManager.FindByEmailAsync(loginDto.Email);
         if (user == null)
         {
-            return null;
+            throw new UnauthorizedAccessException("Usuário e/ou Senha Inválidos.");
         }
 
         var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Senha, false);
         if (!result.Succeeded)
         {
-            return null;
+            throw new UnauthorizedAccessException("Usuário e/ou Senha Inválidos.");
         }
 
-        var token = _jwtService.GenerateToken(user);
         var userDto = new UserDto
         {
             Id = user.Id,
             Email = user.Email,
             Nome = user.Nome,
             DataNascimento = user.DataNascimento,
-            Foto = !string.IsNullOrEmpty(user.Foto) ? _fileService.GetFileUrl(user.Foto) : null
+            Foto = !string.IsNullOrEmpty(user.Foto) ? _fileService.GetFileUrl(user.Foto) : null,
+            Perfil = string.Join(", ", await _userManager.GetRolesAsync(user))
         };
+        var token = _jwtService.GenerateToken(userDto);
 
         return new AuthResponseDto
         {
@@ -588,7 +753,7 @@ public class AuthService : IAuthService
         var user = await _userManager.FindByIdAsync(userId);
         if (user == null)
         {
-            return null;
+            throw new KeyNotFoundException("Usuário não encontrado.");
         }
 
         return new UserDto
@@ -597,148 +762,9 @@ public class AuthService : IAuthService
             Email = user.Email,
             Nome = user.Nome,
             DataNascimento = user.DataNascimento,
-            Foto = !string.IsNullOrEmpty(user.Foto) ? _fileService.GetFileUrl(user.Foto) : null
+            Foto = !string.IsNullOrEmpty(user.Foto) ? _fileService.GetFileUrl(user.Foto) : null,
+            Perfil = string.Join(", ", await _userManager.GetRolesAsync(user))
         };
-    }
-}
-
-
-23. Criar a seguinte estrutura de pastas:
-    GStore.API
-        wwwroot
-            img
-                usuarios
-                produtos
-
-    Adicionar as imagens dos produtos na pasta produtos, e sua foto de usuário na pasta usuario
-
-
-24. Criar na pasta Interfaces a interface IJwtService.cs:
-using <NOME DO PROJETO>.API.Models;
-
-namespace <NOME DO PROJETO>.API.Services.Interfaces;
-
-public interface IJwtService
-{
-    string GenerateToken(Usuario user);
-}
-
-
-25. Criar na pasta Interface a interface IAuthService.cs:
-using <NOME DO PROJETO>.API.DTOs;
-
-namespace <NOME DO PROJETO>.API.Services.Interfaces;
-
-public interface IAuthService
-{
-    Task<AuthResponseDto> RegisterAsync(RegisterDto registerDto);
-    Task<AuthResponseDto> LoginAsync(LoginDto loginDto);
-    Task<UserDto> GetUserByIdAsync(string userId);
-}
-
-
-26. Criar na pasta Implementations a classe JwtService.cs:
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using <NOME DO PROJETO>.API.Services.Interfaces;
-using <NOME DO PROJETO>.API.Models;
-
-namespace <NOME DO PROJETO>.API.Services.Implementations;
-
-public class JwtService : IJwtService
-{
-    private readonly IConfiguration _configuration;
-
-    public JwtService(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
-
-    public string GenerateToken(Usuario user)
-    {
-        var jwtSettings = _configuration.GetSection("JwtSettings");
-        var secretKey = jwtSettings["SecretKey"];
-        var issuer = jwtSettings["Issuer"];
-        var audience = jwtSettings["Audience"];
-        var expirationMinutes = int.Parse(jwtSettings["ExpirationInMinutes"]!);
-
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey!));
-        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-        var claims = new[]
-        {
-            new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim(ClaimTypes.Email, user.Email!),
-            new Claim(ClaimTypes.Name, user.Nome),
-            // new Claim("foto", user.Foto ?? "/img/usuarios/no-photo.png"),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
-        };
-
-        var token = new JwtSecurityToken(
-            issuer: issuer,
-            audience: audience,
-            claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(expirationMinutes),
-            signingCredentials: credentials
-        );
-
-        return new JwtSecurityTokenHandler().WriteToken(token);
-    }
-}
-
-
-27. Criar na pasta Implementations a classe AuthService.cs:
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using <NOME DO PROJETO>.API.Services.Interfaces;
-using <NOME DO PROJETO>.API.Models;
-
-namespace <NOME DO PROJETO>.API.Services.Implementations;
-
-public class JwtService : IJwtService
-{
-    private readonly IConfiguration _configuration;
-
-    public JwtService(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
-
-    public string GenerateToken(Usuario user)
-    {
-        var jwtSettings = _configuration.GetSection("JwtSettings");
-        var secretKey = jwtSettings["SecretKey"];
-        var issuer = jwtSettings["Issuer"];
-        var audience = jwtSettings["Audience"];
-        var expirationMinutes = int.Parse(jwtSettings["ExpirationInMinutes"]!);
-
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey!));
-        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-        var claims = new[]
-        {
-            new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim(ClaimTypes.Email, user.Email!),
-            new Claim(ClaimTypes.Name, user.Nome),
-            new Claim("foto", user.Foto ?? "/img/usuarios/no-photo.png"),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
-        };
-
-        var token = new JwtSecurityToken(
-            issuer: issuer,
-            audience: audience,
-            claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(expirationMinutes),
-            signingCredentials: credentials
-        );
-
-        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
 
@@ -746,6 +772,7 @@ public class JwtService : IJwtService
 28. Alterando o Program.cs para registrar os serviços:
 using System.Text;
 using <NOME DO PROJETO>.API.Data;
+using <NOME DO PROJETO>.API.Middleware;
 using <NOME DO PROJETO>.API.Models;
 using <NOME DO PROJETO>.API.Services.Implementations;
 using <NOME DO PROJETO>.API.Services.Interfaces;
@@ -881,16 +908,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "GStore v1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "<NOME DO PROJETO> v1");
         c.RoutePrefix = string.Empty;
     });
 }
 
 app.UseHttpsRedirection();
 
-app.UseStaticFiles(); 
+app.UseStaticFiles();
 
 app.UseCors("AllowAll");
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();

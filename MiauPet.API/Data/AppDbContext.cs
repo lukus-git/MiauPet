@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MiauPet.API.Data;
 
-public class AppDbContext: IdentityDbContext<Usuario>
+public class AppDbContext : IdentityDbContext<Usuario>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -55,7 +55,7 @@ public class AppDbContext: IdentityDbContext<Usuario>
                 Nome = "José Antonio Gallo Junior",
                 DataNascimento = DateTime.Parse("05/08/1981"),
                 Foto = "/img/usuarios/avatar.png"
-            }  //Aberto para colocar o email e username de algum dos integrantes do grupo
+            }
         ];
         foreach (var user in usuarios)
         {
@@ -96,5 +96,3 @@ public class AppDbContext: IdentityDbContext<Usuario>
     }
 
 }
-
-//Está vermelho por enquanto, porque falta a categoria, produto e usuario serem finalizadas

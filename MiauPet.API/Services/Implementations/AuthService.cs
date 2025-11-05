@@ -46,7 +46,7 @@ public class AuthService : IAuthService
             UserName = registerDto.Email,
             Email = registerDto.Email,
             Nome = registerDto.Nome,
-            DataNascimento = registerDto.DataNascimento,
+            DataNascimento = (DateTime)registerDto.DataNascimento,
             Foto = fotoPath
         };
 

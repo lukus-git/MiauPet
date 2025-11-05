@@ -1,4 +1,4 @@
-namespace GCook.Helpers;
+namespace MiauPet.API.Helpers;
 
 public static class TranslateIdentityErrors
 {

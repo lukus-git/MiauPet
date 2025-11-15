@@ -1,29 +1,39 @@
+#===========================================================================
 1. Definir com o grupo um nome para a sua loja e o segmento de mercado a ser abordado;
+
 
 
 2. Criar um repositório para o Projeto e compartilhar entre todos do grupo;
 
 
+
 3. Clona o repositório e criar uma para com o nome "Docs";
+
 
 
 4. Copiar o diagrama disponibilizado na Rede para a pasta Docs;
 
 
+
 5. Buscar fotos e dados de produtos e categorias para a loja e salvar as informações coletas na pasta "Docs";
+
 
 
 6. Executar o comando abaixo no terminal, substituindo <NOME DO PROJETO> pelo nome do seu projeto, lembrando de seguir as regras de nomeclatura (Primeira letra maiuscula, não adicionar: espaços, caracteres especiais, acentos ou começar com número):
     dotnet new webapi -o <NOME DO PROJETO>.API --use-controllers
 
-6.1 Altera no arquivo <NOME DO PROJETO>.API.csproj a linha 5:
+
+
+7. Altera no arquivo <NOME DO PROJETO>.API.csproj a linha 5:
     <Nullable>disable</Nullable>
 
 
-7. Criar na pasta do projeto uma pasta Models;
+
+8. Criar na pasta do projeto uma pasta Models;
 
 
-8. Executar os comandos abaixo para adicionar as bibliotecas necessárias.
+
+9. Executar os comandos abaixo para adicionar as bibliotecas necessárias.
     dotnet add package Microsoft.EntityFrameworkCore --version 9.0.10
     dotnet add package Microsoft.EntityFrameworkCore.Design --version 9.0.10
     dotnet add package Microsoft.EntityFrameworkCore.Tools --version 9.0.10
@@ -34,15 +44,17 @@
     dotnet add package Swashbuckle.AspNetCore --version 9.0.6
 
 
-9. Criar na pasta Models, as classes do diagrama, que está na Docs (Categoria, Produto, Usuario);
 
-9.1. Lembre-se de adicionar os DataAnnotations necessários, em caso de dúvidas, consulte os projetos já desenvolvidos;
-
-
-10. Criar na pasta do projeto uma pasta Data;
+10. Criar na pasta Models, as classes do diagrama, que está na Docs (Categoria, Produto, Usuario);
+    OBS: Lembre-se de adicionar os DataAnnotations necessários, em caso de dúvidas, consulte os projetos já desenvolvidos;
 
 
-11. Criar na pasta Data a classe AppDbContext e fazer as alterações abaixo:
+
+11. Criar na pasta do projeto uma pasta Data;
+
+
+
+12. Criar na pasta Data a classe AppDbContext e fazer as alterações abaixo:
 using <NOME DO PROJETO>.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -143,7 +155,8 @@ public class AppDbContext : IdentityDbContext<Usuario>
 }
 
 
-12. Alterar o arquivo appsettings.json (Lembre-se de mudar: <NOME DO BANCO> e <NOME DO PROJETO>):
+
+13. Alterar o arquivo appsettings.json (Lembre-se de mudar: <NOME DO BANCO> e <NOME DO PROJETO>):
 {
   "Logging": {
     "LogLevel": {
@@ -164,7 +177,8 @@ public class AppDbContext : IdentityDbContext<Usuario>
 }
 
 
-13. Alterar o arquivo Program.cs
+
+14. Alterar o arquivo Program.cs
 using System.Text;
 using <NOME DO PROJETO>.API.Data;
 using <NOME DO PROJETO>.API.Models;
@@ -311,25 +325,30 @@ app.MapControllers();
 app.Run();
 
 
-14. Apagar os arquivos:
+
+15. Apagar os arquivos:
     - WeatherForecast.cs
     - Controllers\WeatherForecastController.cs
 
 
-15. Executar no terminal:
+
+16. Executar no terminal:
     dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version 9.0.0
     dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 9.0.10
 
 
-16. Executar no terminal para Criar os Controllers:
+
+17. Executar no terminal para Criar os Controllers:
     dotnet aspnet-codegenerator controller -name CategoriasController -async -api -m Categoria -dc AppDbContext -outDir Controllers
     dotnet aspnet-codegenerator controller -name ProdutosController -async -api -m Produto -dc AppDbContext -outDir Controllers
 
 
-17. Executar e testar as rotas de dos controllers
+
+18. Executar e testar as rotas de dos controllers
 
 
-18. Criar a pasta Middleware e dentro a classe ErrorHandlingMiddleware:
+
+19. Criar a pasta Middleware e dentro a classe ErrorHandlingMiddleware:
 using System.Net;
 using System.Text.Json;
 
@@ -409,7 +428,8 @@ public class ErrorResponse
 }
 
 
-19. Criar a pasta DTOs e dentro o arquivo UserDtos.cs
+
+20. Criar a pasta DTOs e dentro o arquivo UserDtos.cs
 using System.ComponentModel.DataAnnotations;
 
 namespace <NOME DO PROJETO>.API.DTOs;
@@ -459,12 +479,14 @@ public class AuthResponseDto
 }
 
 
-20. Adicionar uma pasta Services e dentro desta 2 pastas:
+
+21. Adicionar uma pasta Services e dentro desta 2 pastas:
     Implementations
     Interfaces
 
 
-21. Criar na pasta Interfaces a interface IFileService:
+
+22. Criar na pasta Interfaces a interface IFileService:
 namespace <NOME DO PROJETO>.API.Services.Interfaces;
 
 public interface IFileService
@@ -475,7 +497,8 @@ public interface IFileService
 }
 
 
-22. Criar na pasta Implementations a classe FileService:
+
+23. Criar na pasta Implementations a classe FileService:
 using <NOME DO PROJETO>.API.Services.Interfaces;
 
 namespace <NOME DO PROJETO>.API.Services.Implementations;
@@ -540,17 +563,60 @@ public class FileService : IFileService
 }
 
 
-23. Criar a seguinte estrutura de pastas:
-    <NOME DO PROJETO>.API
-        wwwroot
-            img
-                usuarios
-                produtos
 
-    Adicionar as imagens dos produtos na pasta produtos, e sua foto de usuário na pasta usuario
+24. Criar a seguinte estrutura de pastas dentro da pasta do projeto <NOME DO PROJETO>.API:
+    wwwroot
+        img
+            categorias
+            produtos
+            usuarios
+
+    Adicionar as imagens das categorias na pasta categorias, dos produtos na pasta produtos, e sua foto de usuário na pasta usuarios
 
 
-24. Criar na pasta Interfaces a interface IJwtService.cs:
+
+25. Criar uma pasta Helpers dentro da pasta do projeto <NOME DO PROJETO>.API.
+
+
+
+26. Criar dentro da pastas Helpers a classe TranslateIdentityErrors:
+namespace <NOME DO PROJETO>.API.Helpers;
+
+public static class TranslateIdentityErrors
+{
+    public static string TranslateErrorMessage(string codeError)
+    {
+        string message = codeError switch
+        {
+            "DefaultError" => "Ocorreu um erro desconhecido.",
+            "ConcurrencyFailure" => "Falha de concorrência otimista, o objeto foi modificado.",
+            "InvalidToken" => "Token inválido.",
+            "LoginAlreadyAssociated" => "Já existe um usuário com este login.",
+            "InvalidUserName" => $"Este login é inválido, um login deve conter apenas letras ou dígitos.",
+            "InvalidEmail" => "E-mail inválido.",
+            "DuplicateUserName" => "Este login já está sendo utilizado.",
+            "DuplicateEmail" => $"Este email já está sendo utilizado.",
+            "InvalidRoleName" => "Esta permissão é inválida.",
+            "DuplicateRoleName" => "Esta permissão já está sendo Utilizada",
+            "UserAlreadyInRole" => "Usuário já possui esta permissão.",
+            "UserNotInRole" => "Usuário não tem esta permissão.",
+            "UserLockoutNotEnabled" => "Lockout não está habilitado para este usuário.",
+            "UserAlreadyHasPassword" => "Usuário já possui uma senha definida.",
+            "PasswordMismatch" => "Senha incorreta.",
+            "PasswordTooShort" => "Senha muito curta.",
+            "PasswordRequiresNonAlphanumeric" => "Senhas devem conter ao menos um caracter não alfanumérico.",
+            "PasswordRequiresDigit" => "Senhas devem conter ao menos um digito ('0'-'9').",
+            "PasswordRequiresLower" => "Senhas devem conter ao menos um caracter em caixa baixa ('a'-'z').",
+            "PasswordRequiresUpper" => "Senhas devem conter ao menos um caracter em caixa alta ('A'-'Z').",
+            _ => "Ocorreu um erro desconhecido.",
+        };
+        return message;
+    }
+}
+
+
+
+27. Criar na pasta Interfaces a interface IJwtService.cs:
 using <NOME DO PROJETO>.API.DTOs;
 
 namespace <NOME DO PROJETO>.API.Services.Interfaces;
@@ -561,7 +627,8 @@ public interface IJwtService
 }
 
 
-25. Criar na pasta Interface a interface IAuthService.cs:
+
+28. Criar na pasta Interface a interface IAuthService.cs:
 using <NOME DO PROJETO>.API.DTOs;
 
 namespace <NOME DO PROJETO>.API.Services.Interfaces;
@@ -574,7 +641,8 @@ public interface IAuthService
 }
 
 
-26. Criar na pasta Implementations a classe JwtService.cs:
+
+29. Criar na pasta Implementations a classe JwtService.cs:
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -628,10 +696,8 @@ public class JwtService : IJwtService
 }
 
 
-EXTRA: COPIAR DA REDE A PASTA HELPERS PARA SEU PROJETO.API
 
-
-27. Criar na pasta Implementations a classe AuthService.cs:
+30. Criar na pasta Implementations a classe AuthService.cs:
 using Microsoft.AspNetCore.Identity;
 using <NOME DO PROJETO>.API.DTOs;
 using <NOME DO PROJETO>.API.Services.Interfaces;
@@ -769,7 +835,8 @@ public class AuthService : IAuthService
 }
 
 
-28. Alterando o Program.cs para registrar os serviços:
+
+31. Alterando o Program.cs para registrar os serviços:
 using System.Text;
 using <NOME DO PROJETO>.API.Data;
 using <NOME DO PROJETO>.API.Middleware;
@@ -929,7 +996,8 @@ app.MapControllers();
 app.Run();
 
 
-29. Criar na pasta Controllers o API Controller AuthController.cs:
+
+32. Criar na pasta Controllers o API Controller AuthController.cs:
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -1008,6 +1076,532 @@ public class AuthController : ControllerBase
     public ActionResult ValidateToken()
     {
         return Ok(new { message = "Token válido", isValid = true });
+    }
+}
+
+
+
+33. Execute a aplicação e teste as rotas pelo Swagger
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+34. Criar na pasta DTOs o arquivo CategoriaDtos.cs:
+using System.ComponentModel.DataAnnotations;
+
+namespace <NOME DO PROJETO>.API.DTOs;
+
+public class CategoriaCreateDto
+{
+    [Required]
+    [StringLength(50)]
+    public string Nome { get; set; } = string.Empty;
+
+    [StringLength(26)]
+    public string Cor { get; set; }
+
+    public IFormFile Foto { get; set; }
+}
+
+public class CategoriaUpdateDto
+{
+    public int Id { get; set; }
+
+    [Required]
+    [StringLength(50)]
+    public string Nome { get; set; } = string.Empty;
+
+    [StringLength(26)]
+    public string Cor { get; set; }
+
+    public IFormFile Foto { get; set; }
+}
+
+
+
+35. Atualizando o CategoriasController:
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using <NOME DO PROJETO>.API.Data;
+using <NOME DO PROJETO>.API.DTOs;
+using <NOME DO PROJETO>.API.Models;
+using <NOME DO PROJETO>.API.Services.Interfaces;
+
+namespace <NOME DO PROJETO>.API.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class CategoriasController : ControllerBase
+{
+    private readonly AppDbContext _context;
+    private readonly IFileService _fileService;
+
+    public CategoriasController(AppDbContext context, IFileService fileService)
+    {
+        _context = context;
+        _fileService = fileService;
+    }
+
+    // GET: api/Categorias
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Categoria>>> GetCategorias()
+    {
+        var categorias = await _context.Categorias.ToListAsync();
+        
+        // Converter caminhos relativos em URLs completas
+        foreach (var categoria in categorias)
+        {
+            if (!string.IsNullOrEmpty(categoria.Foto))
+            {
+                categoria.Foto = _fileService.GetFileUrl(categoria.Foto);
+            }
+        }
+        
+        return categorias;
+    }
+
+    // GET: api/Categorias/5
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Categoria>> GetCategoria(int id)
+    {
+        var categoria = await _context.Categorias.FindAsync(id);
+
+        if (categoria == null)
+        {
+            return NotFound();
+        }
+
+        // Converter caminho relativo em URL completa
+        if (!string.IsNullOrEmpty(categoria.Foto))
+        {
+            categoria.Foto = _fileService.GetFileUrl(categoria.Foto);
+        }
+
+        return categoria;
+    }
+
+    // PUT: api/Categorias/5
+    [HttpPut("{id}")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> PutCategoria(int id, [FromForm] CategoriaUpdateDto categoriaDto)
+    {
+        if (id != categoriaDto.Id)
+        {
+            return BadRequest();
+        }
+
+        var categoria = await _context.Categorias.FindAsync(id);
+        if (categoria == null)
+        {
+            return NotFound();
+        }
+
+        // Atualizar propriedades básicas
+        categoria.Nome = categoriaDto.Nome;
+        categoria.Cor = categoriaDto.Cor;
+
+        // Processar nova foto se fornecida
+        if (categoriaDto.Foto != null && categoriaDto.Foto.Length > 0)
+        {
+            // Deletar foto antiga se existir
+            if (!string.IsNullOrEmpty(categoria.Foto))
+            {
+                await _fileService.DeleteFileAsync(categoria.Foto);
+            }
+
+            // Salvar nova foto
+            categoria.Foto = await _fileService.SaveFileAsync(categoriaDto.Foto, "img\\categorias");
+        }
+
+        _context.Entry(categoria).State = EntityState.Modified;
+
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!CategoriaExists(id))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        // Retornar categoria com URL completa
+        if (!string.IsNullOrEmpty(categoria.Foto))
+        {
+            categoria.Foto = _fileService.GetFileUrl(categoria.Foto);
+        }
+
+        return Ok(categoria);
+    }
+
+    // POST: api/Categorias
+    [HttpPost]
+    [Consumes("multipart/form-data")]
+    public async Task<ActionResult<Categoria>> PostCategoria([FromForm] CategoriaCreateDto categoriaDto)
+    {
+        var categoria = new Categoria
+        {
+            Nome = categoriaDto.Nome,
+            Cor = categoriaDto.Cor ?? "rgba(0,0,0,1)"
+        };
+
+        // Salvar foto se fornecida
+        if (categoriaDto.Foto != null && categoriaDto.Foto.Length > 0)
+        {
+            categoria.Foto = await _fileService.SaveFileAsync(categoriaDto.Foto, "img\\categorias");
+        }
+
+        _context.Categorias.Add(categoria);
+        await _context.SaveChangesAsync();
+
+        // Retornar categoria com URL completa
+        if (!string.IsNullOrEmpty(categoria.Foto))
+        {
+            categoria.Foto = _fileService.GetFileUrl(categoria.Foto);
+        }
+
+        return CreatedAtAction("GetCategoria", new { id = categoria.Id }, categoria);
+    }
+
+    // DELETE: api/Categorias/5
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteCategoria(int id)
+    {
+        var categoria = await _context.Categorias.FindAsync(id);
+        if (categoria == null)
+        {
+            return NotFound();
+        }
+
+        // Deletar foto associada se existir
+        if (!string.IsNullOrEmpty(categoria.Foto))
+        {
+            await _fileService.DeleteFileAsync(categoria.Foto);
+        }
+
+        _context.Categorias.Remove(categoria);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    private bool CategoriaExists(int id)
+    {
+        return _context.Categorias.Any(e => e.Id == id);
+    }
+}
+
+
+
+36. Crie na pasta DTOs o arquivo ProdutoDto.cs:
+using System.ComponentModel.DataAnnotations;
+
+namespace <NOME DO PROJETO>.API.DTOs;
+
+public class ProdutoDto
+{
+    public int Id { get; set; }
+    public int CategoriaId { get; set; }
+    public string Nome { get; set; } = string.Empty;
+    public string Descricao { get; set; } = string.Empty;
+    public int Qtde { get; set; } = 0;
+    public decimal ValorCusto { get; set; } = 0;
+    public decimal ValorVenda { get; set; } = 0;
+    public bool Destaque { get; set; } = false;
+    public string Foto { get; set; }
+    public string CategoriaNome { get; set; } // Para exibir o nome da categoria
+}
+
+public class ProdutoCreateDto
+{
+    [Required]
+    public int CategoriaId { get; set; }
+
+    [Required]
+    [StringLength(100)]
+    public string Nome { get; set; } = string.Empty;
+
+    [StringLength(3000)]
+    public string Descricao { get; set; } = string.Empty;
+
+    [Required]
+    [Range(0, int.MaxValue)]
+    public int Qtde { get; set; } = 0;
+
+    [Required]
+    [Range(0, double.MaxValue)]
+    public decimal ValorCusto { get; set; } = 0;
+
+    [Required]
+    [Range(0, double.MaxValue)]
+    public decimal ValorVenda { get; set; } = 0;
+
+    public bool Destaque { get; set; } = false;
+
+    public IFormFile Foto { get; set; }
+}
+
+public class ProdutoUpdateDto
+{
+    public int Id { get; set; }
+
+    [Required]
+    public int CategoriaId { get; set; }
+
+    [Required]
+    [StringLength(100)]
+    public string Nome { get; set; } = string.Empty;
+
+    [StringLength(3000)]
+    public string Descricao { get; set; } = string.Empty;
+
+    [Required]
+    [Range(0, int.MaxValue)]
+    public int Qtde { get; set; } = 0;
+
+    [Required]
+    [Range(0, double.MaxValue)]
+    public decimal ValorCusto { get; set; } = 0;
+
+    [Required]
+    [Range(0, double.MaxValue)]
+    public decimal ValorVenda { get; set; } = 0;
+
+    public bool Destaque { get; set; } = false;
+
+    public IFormFile Foto { get; set; }
+}
+
+
+
+37. Atualizar o ProdutosController:
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using <NOME DO PROJETO>.API.Data;
+using <NOME DO PROJETO>.API.Models;
+using <NOME DO PROJETO>.API.Services.Interfaces;
+using <NOME DO PROJETO>.API.DTOs;
+
+namespace <NOME DO PROJETO>.API.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class ProdutosController : ControllerBase
+{
+    private readonly AppDbContext _context;
+    private readonly IFileService _fileService;
+
+    public ProdutosController(AppDbContext context, IFileService fileService)
+    {
+        _context = context;
+        _fileService = fileService;
+    }
+
+    // GET: api/Produtos
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ProdutoDto>>> GetProdutos()
+    {
+        var produtos = await _context.Produtos
+            .Include(p => p.Categoria)
+            .ToListAsync();
+
+        var produtosDto = produtos.Select(p => MapToDto(p)).ToList();
+        return Ok(produtosDto);
+    }
+
+    // GET: api/Produtos/5
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ProdutoDto>> GetProduto(int id)
+    {
+        var produto = await _context.Produtos
+            .Include(p => p.Categoria)
+            .FirstOrDefaultAsync(p => p.Id == id);
+
+        if (produto == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(MapToDto(produto));
+    }
+
+    // GET: api/Produtos/categoria/5
+    [HttpGet("categoria/{categoriaId}")]
+    public async Task<ActionResult<IEnumerable<ProdutoDto>>> GetProdutosPorCategoria(int categoriaId)
+    {
+        var produtos = await _context.Produtos
+            .Include(p => p.Categoria)
+            .Where(p => p.CategoriaId == categoriaId)
+            .ToListAsync();
+
+        var produtosDto = produtos.Select(p => MapToDto(p)).ToList();
+        return Ok(produtosDto);
+    }
+
+    // GET: api/Produtos/destaque
+    [HttpGet("destaque")]
+    public async Task<ActionResult<IEnumerable<ProdutoDto>>> GetProdutosDestaque()
+    {
+        var produtos = await _context.Produtos
+            .Include(p => p.Categoria)
+            .Where(p => p.Destaque)
+            .ToListAsync();
+
+        var produtosDto = produtos.Select(p => MapToDto(p)).ToList();
+        return Ok(produtosDto);
+    }
+
+    // PUT: api/Produtos/5
+    [HttpPut("{id}")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> PutProduto(int id, [FromForm] ProdutoUpdateDto produtoDto)
+    {
+        if (id != produtoDto.Id)
+        {
+            return BadRequest();
+        }
+
+        var produto = await _context.Produtos.FindAsync(id);
+        if (produto == null)
+        {
+            return NotFound();
+        }
+
+        // Atualizar propriedades
+        produto.CategoriaId = produtoDto.CategoriaId;
+        produto.Nome = produtoDto.Nome;
+        produto.Descricao = produtoDto.Descricao;
+        produto.Qtde = produtoDto.Qtde;
+        produto.ValorCusto = produtoDto.ValorCusto;
+        produto.ValorVenda = produtoDto.ValorVenda;
+        produto.Destaque = produtoDto.Destaque;
+
+        // Processar nova foto se fornecida
+        if (produtoDto.Foto != null && produtoDto.Foto.Length > 0)
+        {
+            // Deletar foto antiga se existir
+            if (!string.IsNullOrEmpty(produto.Foto))
+            {
+                await _fileService.DeleteFileAsync(produto.Foto);
+            }
+
+            // Salvar nova foto
+            produto.Foto = await _fileService.SaveFileAsync(produtoDto.Foto, "img\\produtos");
+        }
+
+        _context.Entry(produto).State = EntityState.Modified;
+
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!ProdutoExists(id))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        return Ok(MapToDto(produto));
+    }
+
+    // POST: api/Produtos
+    [HttpPost]
+    [Consumes("multipart/form-data")]
+    public async Task<ActionResult<ProdutoDto>> PostProduto([FromForm] ProdutoCreateDto produtoDto)
+    {
+        var produto = new Produto
+        {
+            CategoriaId = produtoDto.CategoriaId,
+            Nome = produtoDto.Nome,
+            Descricao = produtoDto.Descricao,
+            Qtde = produtoDto.Qtde,
+            ValorCusto = produtoDto.ValorCusto,
+            ValorVenda = produtoDto.ValorVenda,
+            Destaque = produtoDto.Destaque
+        };
+
+        // Salvar foto se fornecida
+        if (produtoDto.Foto != null && produtoDto.Foto.Length > 0)
+        {
+            produto.Foto = await _fileService.SaveFileAsync(produtoDto.Foto, "img\\produtos");
+        }
+
+        _context.Produtos.Add(produto);
+        await _context.SaveChangesAsync();
+
+        // Carregar categoria para incluir no DTO
+        await _context.Entry(produto)
+            .Reference(p => p.Categoria)
+            .LoadAsync();
+
+        return CreatedAtAction("GetProduto", new { id = produto.Id }, MapToDto(produto));
+    }
+
+    // DELETE: api/Produtos/5
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteProduto(int id)
+    {
+        var produto = await _context.Produtos.FindAsync(id);
+        if (produto == null)
+        {
+            return NotFound();
+        }
+
+        // Deletar foto associada se existir
+        if (!string.IsNullOrEmpty(produto.Foto))
+        {
+            await _fileService.DeleteFileAsync(produto.Foto);
+        }
+
+        _context.Produtos.Remove(produto);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    private bool ProdutoExists(int id)
+    {
+        return _context.Produtos.Any(e => e.Id == id);
+    }
+
+    private ProdutoDto MapToDto(Produto produto)
+    {
+        return new ProdutoDto
+        {
+            Id = produto.Id,
+            CategoriaId = produto.CategoriaId,
+            Nome = produto.Nome,
+            Descricao = produto.Descricao,
+            Qtde = produto.Qtde,
+            ValorCusto = produto.ValorCusto,
+            ValorVenda = produto.ValorVenda,
+            Destaque = produto.Destaque,
+            Foto = !string.IsNullOrEmpty(produto.Foto) ? _fileService.GetFileUrl(produto.Foto) : null,
+            CategoriaNome = produto.Categoria?.Nome
+        };
     }
 }
 

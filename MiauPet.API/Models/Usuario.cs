@@ -17,5 +17,5 @@ public class Usuario : IdentityUser
     public DateTime DataNascimento { get; set; }
 
     [StringLength(300)]
-    public string? Foto { get; set; }
+    public string Foto { get; set; }
 }

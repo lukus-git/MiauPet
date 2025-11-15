@@ -46,14 +46,14 @@ public class AppDbContext : IdentityDbContext<Usuario>
         List<Usuario> usuarios = [
             new Usuario(){
                 Id = "ddf093a6-6cb5-4ff7-9a64-83da34aee005",
-                Email = "gallojunior@gmail.com",
-                NormalizedEmail = "GALLOJUNIOR@GMAIL.COM",
-                UserName = "gallouunior@gmail.com",
-                NormalizedUserName = "GALLOJUNIOR@GMAIL.COM",
+                Email = "lucas.garbi@hotmail.com",
+                NormalizedEmail = "LUCAS.GARBI@HOTMAIL.COM",
+                UserName = "lucas.garbi@hotmail.com",
+                NormalizedUserName = "LUCAS.GARBI@HOTMAIL.COM",
                 LockoutEnabled = true,
                 EmailConfirmed = true,
-                Nome = "José Antonio Gallo Junior",
-                DataNascimento = DateTime.Parse("05/08/1981"),
+                Nome = "Lucas Lanfredi Garbi",
+                DataNascimento = DateTime.Parse("22/07/2004"),
                 Foto = "/img/usuarios/avatar.png"
             }
         ];

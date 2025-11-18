@@ -1,3 +1,4 @@
+using MiauPet.UI;
 using MiauPet.UI.Middleware;
 using MiauPet.UI.Models;
 using MiauPet.UI.Services.Implementations;
@@ -50,6 +51,7 @@ builder.Services.AddHttpContextAccessor();
 
 // Serviços de API
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 
 var app = builder.Build();
 

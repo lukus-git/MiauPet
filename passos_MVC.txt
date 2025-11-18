@@ -4408,9 +4408,9 @@ public class MappingConfig : Profile
 
 
 66.Criar a interface ILojaService na pasta \Services\Interfaces:
-using GStore.UI.DTOs;
+using <NOME DO PROJETO>.UI.DTOs;
 
-namespace GStore.UI.Services.Interfaces;
+namespace <NOME DO PROJETO>.UI.Services.Interfaces;
 
 public interface ILojaService
 {
@@ -4424,12 +4424,12 @@ public interface ILojaService
 
 
 67. Criar a interface LojaService na pasta \Services\Implementations:
-using GStore.UI.DTOs;
-using GStore.UI.Models;
-using GStore.UI.Services.Interfaces;
+using <NOME DO PROJETO>.UI.DTOs;
+using <NOME DO PROJETO>.UI.Models;
+using <NOME DO PROJETO>.UI.Services.Interfaces;
 using Microsoft.Extensions.Options;
 
-namespace GStore.UI.Services.Implementations;
+namespace <NOME DO PROJETO>.UI.Services.Implementations;
 
 public class LojaService : BaseApiService, ILojaService
 {
@@ -4479,9 +4479,9 @@ builder.Services.AddScoped<ILojaService, LojaService>();
 
 
 69. Criar na pasta ViewModels a classe HomeVM:
-using GStore.UI.DTOs;
+using <NOME DO PROJETO>.UI.DTOs;
 
-namespace GStore.UI.ViewModels;
+namespace <NOME DO PROJETO>.UI.ViewModels;
 
 public class HomeVM
 {
@@ -4493,14 +4493,14 @@ public class HomeVM
 
 70. Atualizar o Controller HomeController:
 using System.Diagnostics;
-using GStore.UI.DTOs;
-using GStore.UI.Models;
-using GStore.UI.Services.Interfaces;
-using GStore.UI.ViewModels;
+using <NOME DO PROJETO>.UI.DTOs;
+using <NOME DO PROJETO>.UI.Models;
+using <NOME DO PROJETO>.UI.Services.Interfaces;
+using <NOME DO PROJETO>.UI.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GStore.UI.Controllers;
+namespace <NOME DO PROJETO>.UI.Controllers;
 
 public class HomeController : Controller
 {
@@ -4609,11 +4609,11 @@ public class HomeController : Controller
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GStore - @ViewData["Title"]</title>
+    <title><NOME DO PROJETO> - @ViewData["Title"]</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/GStore.UI.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/<NOME DO PROJETO>.UI.styles.css" asp-append-version="true" />
     @await RenderSectionAsync("Styles", required: false)
 </head>
 
@@ -4622,7 +4622,7 @@ public class HomeController : Controller
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand fw-bold fs-3" asp-action="Index">
-                    <i class="fas fa-store me-2"></i>GStore
+                    <i class="fas fa-store me-2"></i><NOME DO PROJETO>
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain"
@@ -4663,7 +4663,7 @@ public class HomeController : Controller
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - GStore - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2025 - <NOME DO PROJETO> - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -4762,9 +4762,9 @@ public class HomeController : Controller
 
 
 73. Alterar o arquivo Views\Home\Index.cshtml:
-@model GStore.UI.ViewModels.HomeVM
+@model <NOME DO PROJETO>.UI.ViewModels.HomeVM
 @{
-    ViewData["Title"] = "GStore - Sua Loja Virtual";
+    ViewData["Title"] = "<NOME DO PROJETO> - Sua Loja Virtual";
 }
 
 <!-- Hero Section -->
@@ -4772,7 +4772,7 @@ public class HomeController : Controller
     <div class="container">
         <div class="row align-items-center py-5">
             <div class="col-lg-8">
-                <h1 class="display-4 fw-bold mb-3">Bem-vindo à GStore</h1>
+                <h1 class="display-4 fw-bold mb-3">Bem-vindo à <NOME DO PROJETO></h1>
                 <p class="lead mb-4">Encontre os melhores produtos com os preços mais competitivos do mercado.</p>
                 <div class="d-flex flex-wrap gap-3">
                     <a asp-action="Produtos" class="btn btn-light btn-lg px-4">
@@ -4967,7 +4967,7 @@ public class HomeController : Controller
 
 
 74. Criar na pasta Views\Home\ o arquivo Produtos.cshtml:
-@model List<GStore.UI.DTOs.ProdutoDto>
+@model List<<NOME DO PROJETO>.UI.DTOs.ProdutoDto>
 @{
     ViewData["Title"] = "Nossos Produtos";
 }
@@ -5105,7 +5105,7 @@ public class HomeController : Controller
 
 
 75. Criar na pasta Views\Home\ o arquivo Produtos.cshtml:
-@model GStore.UI.DTOs.ProdutoDto
+@model <NOME DO PROJETO>.UI.DTOs.ProdutoDto
 @{
     ViewData["Title"] = Model.Nome;
 }

@@ -3718,7 +3718,7 @@ public class MappingConfig : Profile
 
 
 62. Criar na pasta Views\Produtos um arquivo Details.cshtml:
-@model ProdutoVM
+@model ProdutoVM 
 @{
     ViewData["Title"] = "Detalhes do Produto";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -5104,7 +5104,7 @@ public class HomeController : Controller
 
 
 
-75. Criar na pasta Views\Home\ o arquivo Produtos.cshtml:
+75. Criar na pasta Views\Home\ o arquivo Detalhes.cshtml:
 @model <NOME DO PROJETO>.UI.DTOs.ProdutoDto
 @{
     ViewData["Title"] = Model.Nome;

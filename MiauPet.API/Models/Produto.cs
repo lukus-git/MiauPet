@@ -22,7 +22,7 @@ public class Produto
 
     [StringLength(3000)]
     [Display(Name = "Descrição")]
-    public string? Descricao { get; set; }
+    public string Descricao { get; set; }
 
     [Display(Name = "Quantidade")]
     public int Qtde { get; set; }
@@ -39,5 +39,5 @@ public class Produto
     public bool Destaque { get; set; } = false;
 
     [StringLength(300)]
-    public string? Foto { get; set; }
+    public string Foto { get; set; }
 }

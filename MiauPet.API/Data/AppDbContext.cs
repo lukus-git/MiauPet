@@ -82,6 +82,13 @@ public class AppDbContext : IdentityDbContext<Usuario>
         List<Categoria> categorias = new()
         {
             // Criar suas categorias
+
+            new Categoria {Id = 1, Nome = "Acessórios"},
+            new Categoria {Id = 2, Nome = "Alimentação"},
+            new Categoria {Id = 3, Nome = "HigieneECuidados"},
+            new Categoria {Id = 4, Nome = "Outros"},
+            new Categoria {Id = 5, Nome = "Saude"},
+
         };
         builder.Entity<Categoria>().HasData(categorias);
     }
@@ -91,6 +98,13 @@ public class AppDbContext : IdentityDbContext<Usuario>
         List<Produto> produtos = new()
         {
             // Criar seus produtos
+
+            //categoria Acessórios
+            new Produto {Id = 1, CategoriaId = 1, Nome = "PremierCookie", ValorCusto = 100.00m, ValorVenda = 120.00m, Qtde = 10, Destaque = true, Foto = "/img/produtos/Ace_1_Cao_Gravata.png"},
+            new Produto {Id = 2, CategoriaId = 1, Nome = "coleira", ValorCusto = 15.00m, ValorVenda = 120.00m, Qtde = 10, Destaque = true, Foto = "/img/produtos/Ace_1_Cao_Gravata.png"},
+            new Produto {Id = 3, CategoriaId = 1, Nome = "lacinho", ValorCusto = 120.00m, ValorVenda = 150.00m, Qtde = 10, Destaque = true, Foto = "/img/produtos/Ace_1_Cao_Gravata.png"},
+            new Produto {Id = 4, CategoriaId = 1, Nome = "oculos", ValorCusto = 60.00m, ValorVenda = 122.00m, Qtde = 10, Destaque = true, Foto = "/img/produtos/Ace_1_Cao_Gravata.png",}
+
         };
         builder.Entity<Produto>().HasData(produtos);
     }

@@ -26,5 +26,5 @@ public class Categoria
     public string Cor { get; set; } = "rgba(0,0,0,1)";
 
     // Relação com Produto
-    public ICollection<Produto> Produtos { get; set; }
+    public virtual ICollection<Produto> Produtos { get; set; }
 }

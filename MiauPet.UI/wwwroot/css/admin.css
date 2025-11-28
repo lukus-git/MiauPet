@@ -30,7 +30,7 @@ body {
     transition: width var(--transition-speed), transform var(--transition-speed);
     overflow-x: hidden;
     z-index: 1020;
-    box-shadow: 3px 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 3px 0 10px rgba(218, 41, 41, 0.1);
     background-color: var(--bs-body-bg);
     color: var(--bs-body-color);
 }
@@ -266,4 +266,22 @@ body {
 .alert-info {
     background-color: #d1ecf1;
     color: #0c5460;
+}
+.text-success {
+    --bs-text-opacity: 1;
+    color: rgb(178 41 179) !important;
+}
+
+.bg-primary {
+    --bs-bg-opacity: 1;
+    background-color: rgb(251, 255, 0) !important;
+}
+.navbar-brand {
+    padding-top: var(--bs-navbar-brand-padding-y);
+    padding-bottom: var(--bs-navbar-brand-padding-y);
+    margin-right: var(--bs-navbar-brand-margin-end);
+    font-size: var(--bs-navbar-brand-font-size);
+    color: #741111;
+    text-decoration: none;
+    white-space: nowrap;
 }

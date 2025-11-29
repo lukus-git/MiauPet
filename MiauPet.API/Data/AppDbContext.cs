@@ -54,7 +54,7 @@ public class AppDbContext : IdentityDbContext<Usuario>
                 EmailConfirmed = true,
                 Nome = "Lucas Lanfredi Garbi",
                 DataNascimento = DateTime.Parse("22/07/2004"),
-                Foto = "/img/usuarios/avatar.png"
+                Foto = "/img/usuario/avatar_cat.webp"
             }
         ];
         foreach (var user in usuarios)

@@ -100,21 +100,21 @@ public class AppDbContext : IdentityDbContext<Usuario>
             // Criar seus produtos
 
             //categoria alimentacao
-            new Produto {Id = 1, CategoriaId = 2, Nome = "PremierCookie", ValorCusto = 120.00m, ValorVenda = 100.00m, Qtde = 12, Destaque = true, Foto = "/img/produtos/alimentacao/Pet_1_Cao_PremierCookie.jpg"},
-            new Produto {Id = 2, CategoriaId = 2, Nome = "Ração Pedigree", ValorCusto = 122.00m, ValorVenda = 60.00m, Qtde = 10, Destaque = true, Foto = "/img/produtos/alimentacao/RacMol_2_CaoG_Pedigree_100g.jpg",},
+            new Produto {Id = 1, CategoriaId = 2, Nome = "PremierCookie", ValorCusto = 120.00m, ValorVenda = 100.00m, Qtde = 12, Descricao = "PremierCookie – Cookies artesanais premium, elaborados com ingredientes selecionados para garantir sabor, textura perfeita e qualidade superior em cada mordida." ,Destaque = true, Foto = "/img/produtos/alimentacao/Pet_1_Cao_PremierCookie.jpg"},
+            new Produto {Id = 2, CategoriaId = 2, Nome = "Ração Pedigree", ValorCusto = 122.00m, ValorVenda = 60.00m, Qtde = 10, Descricao = "Nutrição completa para cães de todas as idades, combinando sabor irresistível e ingredientes que promovem saúde e vitalidade.",Destaque = true, Foto = "/img/produtos/alimentacao/RacMol_2_CaoG_Pedigree_100g.jpg",},
 
             // categoria acessorios
-            new Produto {Id = 3, CategoriaId = 1, Nome = "Coleira de Gato AirTag", ValorCusto = 120.00m, ValorVenda = 100.00m, Qtde = 20, Destaque = true, Foto = "/img/produtos/acessorios/Ace_3_Gato_Airtag.jpg"},
-            new Produto {Id = 4, CategoriaId = 1, Nome = "Vestido Pocoto em Jeans", ValorCusto = 110.00m, ValorVenda = 99.00m, Qtde = 12, Destaque = true, Foto = "/img/produtos/acessorios/Vestido-Pocoto-Pet-Kelly-em-Jeans.png"},
+            new Produto {Id = 3, CategoriaId = 1, Nome = "Coleira de Gato AirTag", ValorCusto = 120.00m, ValorVenda = 100.00m, Qtde = 20, Descricao = "Coleira prática e segura com suporte para AirTag, garantindo rastreio confiável e conforto para o seu gato.",Destaque = true, Foto = "/img/produtos/acessorios/Ace_3_Gato_Airtag.jpg"},
+            new Produto {Id = 4, CategoriaId = 1, Nome = "Vestido Pocoto em Jeans", ValorCusto = 110.00m, ValorVenda = 99.00m, Qtde = 12, Descricao = "Vestido para cães, em jeans de alta qualidade, com design moderno e confortável para o dia a dia.",Destaque = true, Foto = "/img/produtos/acessorios/Vestido-Pocoto-Pet-Kelly-em-Jeans.png"},
             
 
             //categoria saude
-            new Produto {Id = 5, CategoriaId = 5, Nome = "Roupa Pós Cirúrgica Pet", ValorCusto = 126.00m, ValorVenda = 113.70m, Qtde = 15, Destaque = true, Foto = "/img/produtos/saude/roupa-pos-cirurgia.webp"},
-            new Produto {Id = 6, CategoriaId = 5, Nome = "Vermifugo World Plus 30 Kg", ValorCusto = 30.00m, ValorVenda = 19.90m, Qtde = 10, Destaque = true, Foto = "/img/produtos/saude/Vermifugo.jpg"},
-            new Produto {Id = 7, CategoriaId = 5, Nome = "Antipulgas Zoetis Simparic", ValorCusto = 110.00m, ValorVenda = 66.59m, Qtde = 10, Destaque = true, Foto = "/img/produtos/saude/simparic.jpg"},
+            new Produto {Id = 5, CategoriaId = 5, Nome = "Roupa Pós Cirúrgica Pet", ValorCusto = 126.00m, ValorVenda = 113.70m, Qtde = 15, Descricao = "Proteção prática e confortável para pets em recuperação, prevenindo lambidas e facilitando a cicatrização.",Destaque = true, Foto = "/img/produtos/saude/roupa-pos-cirurgia.webp"},
+            new Produto {Id = 6, CategoriaId = 5, Nome = "Vermifugo World Plus 30 Kg", ValorCusto = 30.00m, ValorVenda = 19.90m, Qtde = 10, Descricao = "Solução eficaz para controle de parasitas internos em cães de grande porte, garantindo saúde intestinal e bem-estar.",Destaque = true, Foto = "/img/produtos/saude/Vermifugo.jpg"},
+            new Produto {Id = 7, CategoriaId = 5, Nome = "Antipulgas Zoetis Simparic", ValorCusto = 110.00m, ValorVenda = 66.59m, Qtde = 10, Descricao = "Proteção rápida e duradoura contra pulgas e carrapatos, promovendo conforto e saúde para seu pet.",Destaque = true, Foto = "/img/produtos/saude/simparic.jpg"},
             
             //categoria Higiene
-            new Produto{Id = 8, CategoriaId = 3, Nome = "Tapete Higiênico Meau Premium", ValorCusto= 115.00m, ValorVenda= 92.70m, Qtde= 5, Destaque = true, Foto ="/img/produtos/higiene/tapeteHigienico.webp"},
+            new Produto{Id = 8, CategoriaId = 3, Nome = "Tapete Higiênico Meau Premium", ValorCusto= 115.00m, ValorVenda= 92.70m, Qtde= 5, Descricao = "Absorção superior e controle de odores, oferecendo praticidade e higiene para pets em casa.",Destaque = true, Foto ="/img/produtos/higiene/tapeteHigienico.webp"},
 
             //mimos
             

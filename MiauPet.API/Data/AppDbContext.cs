@@ -85,9 +85,9 @@ public class AppDbContext : IdentityDbContext<Usuario>
 
             new Categoria {Id = 1, Nome = "Acessórios"},
             new Categoria {Id = 2, Nome = "Alimentação"},
-            new Categoria {Id = 3, Nome = "HigieneECuidados"},
+            new Categoria {Id = 3, Nome = "Higiene"},
             new Categoria {Id = 4, Nome = "Mimos"},
-            new Categoria {Id = 5, Nome = "Saude"},
+            new Categoria {Id = 5, Nome = "Saúde"},
 
         };
         builder.Entity<Categoria>().HasData(categorias);
@@ -100,23 +100,24 @@ public class AppDbContext : IdentityDbContext<Usuario>
             // Criar seus produtos
 
             //categoria alimentacao
-            new Produto {Id = 1, CategoriaId = 2, Nome = "PremierCookie", ValorCusto = 100.00m, ValorVenda = 120.00m, Qtde = 10, Destaque = true, Foto = "/img/produtos/alimentacao/Pet_1_Cao_PremierCookie.jpg"},
-            new Produto {Id = 2, CategoriaId = 2, Nome = "Ração PEdigree", ValorCusto = 60.00m, ValorVenda = 122.00m, Qtde = 10, Destaque = true, Foto = "/img/produtos/alimentacao/RacMol_2_CaoG_Pedigree_100g.jpg",},
+            new Produto {Id = 1, CategoriaId = 2, Nome = "PremierCookie", ValorCusto = 120.00m, ValorVenda = 100.00m, Qtde = 12, Destaque = true, Foto = "/img/produtos/alimentacao/Pet_1_Cao_PremierCookie.jpg"},
+            new Produto {Id = 2, CategoriaId = 2, Nome = "Ração Pedigree", ValorCusto = 122.00m, ValorVenda = 60.00m, Qtde = 10, Destaque = true, Foto = "/img/produtos/alimentacao/RacMol_2_CaoG_Pedigree_100g.jpg",},
 
             // categoria acessorios
-            new Produto {Id = 3, CategoriaId = 1, Nome = "coleira de gato AirTag", ValorCusto = 15.00m, ValorVenda = 120.00m, Qtde = 10, Destaque = true, Foto = "/img/produtos/acessorios/Ace_3_Gato_Airtag.jpg"},
-            new Produto {Id = 4, CategoriaId = 1, Nome = "Vestido Pocoto em Jeans", ValorCusto = 110.00m, ValorVenda = 99.00m, Qtde = 10, Destaque = true, Foto = "/img/produtos/acessorios/Vestido-Pocoto-Pet-Kelly-em-Jeans"},
+            new Produto {Id = 3, CategoriaId = 1, Nome = "Coleira de Gato AirTag", ValorCusto = 120.00m, ValorVenda = 100.00m, Qtde = 20, Destaque = true, Foto = "/img/produtos/acessorios/Ace_3_Gato_Airtag.jpg"},
+            new Produto {Id = 4, CategoriaId = 1, Nome = "Vestido Pocoto em Jeans", ValorCusto = 110.00m, ValorVenda = 99.00m, Qtde = 12, Destaque = true, Foto = "/img/produtos/acessorios/Vestido-Pocoto-Pet-Kelly-em-Jeans.png"},
             
 
             //categoria saude
-            new Produto {Id = 5, CategoriaId = 5, Nome = "Cefa Cure", ValorCusto = 120.00m, ValorVenda = 150.00m, Qtde = 10, Destaque = true, Foto = "/img/produtos/saude/Sau_1_CaoGato_Cefa-Cure.jpg"},
-            new Produto {Id = 6, CategoriaId = 5, Nome = "Vermifugo World Veterinária VermiCanis Plus para Cães de 30 Kg", ValorCusto = 19.00m, ValorVenda = 30.00m, Qtde = 10, Destaque = true, Foto = "/img/produtos/saude/Vermifugo.jpg"},
+            new Produto {Id = 5, CategoriaId = 5, Nome = "Roupa Pós Cirúrgica Pet", ValorCusto = 126.00m, ValorVenda = 113.70m, Qtde = 15, Destaque = true, Foto = "/img/produtos/saude/roupa-pos-cirurgia.webp"},
+            new Produto {Id = 6, CategoriaId = 5, Nome = "Vermifugo World Plus 30 Kg", ValorCusto = 30.00m, ValorVenda = 19.90m, Qtde = 10, Destaque = true, Foto = "/img/produtos/saude/Vermifugo.jpg"},
+            new Produto {Id = 7, CategoriaId = 5, Nome = "Antipulgas Zoetis Simparic", ValorCusto = 110.00m, ValorVenda = 66.59m, Qtde = 10, Destaque = true, Foto = "/img/produtos/saude/simparic.jpg"},
             
-            //categoria Higiene E Cuidados
-            
+            //categoria Higiene
+            new Produto{Id = 8, CategoriaId = 3, Nome = "Tapete Higiênico Meau Premium", ValorCusto= 115.00m, ValorVenda= 92.70m, Qtde= 5, Destaque = true, Foto ="/img/produtos/higiene/tapeteHigienico.webp"},
 
             //mimos
-
+            
         };
         builder.Entity<Produto>().HasData(produtos);
     }

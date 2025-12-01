@@ -1,90 +1,113 @@
 @model MiauPet.UI.DTOs.ProdutoDto
 @{
-    ViewData["Title"] = Model.Nome;
+    ViewData["Title"] = "MiauPet";
 }
 
-<div class="container py-4">
+<style>
+    /* Estilo para controlar o tamanho máximo do contêiner da imagem */
+    .product-detail-image-wrapper {
+        height: 450px; /* Define a altura fixa do contêiner para diminuir o tamanho */
+        max-width: 100%; 
+        display: flex; /* Para centralizar o conteúdo verticalmente (placeholder ou imagem) */
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+    
+    /* Garante que a imagem se ajuste à altura máxima do contêiner */
+    .product-detail-image-wrapper img {
+        max-height: 100%;
+        width: auto;
+    }
+</style>
+
+<div class="container py-5">
+
     <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-action="Index">Home</a></li>
-            <li class="breadcrumb-item"><a asp-action="Produtos">Produtos</a></li>
-            <li class="breadcrumb-item active">@Model.Nome</li>
+            <li class="breadcrumb-item"><a asp-action="Index" class="text-decoration-none text-miau-rosa">Home</a></li>
+            <li class="breadcrumb-item"><a asp-action="Produtos"
+                    class="text-decoration-none text-miau-rosa">Produtos</a></li>
+            <li class="breadcrumb-item active text-muted" aria-current="page">@Model.Nome</li>
         </ol>
     </nav>
 
     @if (TempData["Erro"] != null)
     {
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="fas fa-exclamation-circle"></i> @TempData["Erro"]
+            <i class="fas fa-exclamation-circle me-2"></i> @TempData["Erro"]
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
     }
 
     <div class="row">
-        <!-- Imagem do Produto -->
-        <div class="col-md-6 mb-4">
-            @if (!string.IsNullOrEmpty(Model.Foto))
-            {
-                <img src="@Model.Foto" alt="@Model.Nome" class="img-fluid rounded shadow">
-            }
-            else
-            {
-                <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 400px;">
-                    <i class="fas fa-image fa-5x text-muted"></i>
-                </div>
-            }
+        <div class="col-lg-6 mb-4">
+            <div class= "product-detail-image-wrapper rounded-4 shadow-lg"> 
+                @if (!string.IsNullOrEmpty(Model.Foto))
+                {
+                    <img src="@Model.Foto" alt="@Model.Nome" class="img-fluid"
+                        style="object-fit: contain;">
+                }
+                else
+                {
+                    <div class="bg-light rounded-4 d-flex align-items-center justify-content-center border"
+                        style="height: 500px;">
+                        <i class="fas fa-image fa-5x text-muted"></i>
+                    </div>
+                }
+            </div>
         </div>
 
-        <!-- Informações do Produto -->
-        <div class="col-md-6">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                    <!-- Categoria e Status -->
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <span class="badge bg-secondary">@Model.CategoriaNome</span>
+        <div class="col-lg-6">
+            <div class="card border-0">
+                <div class="card-body p-0">
+
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <span class="badge bg-miau-azul py-2 px-3 fs-6">@Model.CategoriaNome</span>
                         @if (Model.Destaque)
                         {
-                            <span class="badge bg-warning text-dark">
+                            <span class="badge bg-miau-amarelo text-dark py-2 px-3 fs-6">
                                 <i class="fas fa-star me-1"></i>Destaque
                             </span>
                         }
                     </div>
 
-                    <h1 class="h2 fw-bold mb-3">@Model.Nome</h1>
+                    <h1 class="h2 fw-bolder mb-3">@Model.Nome</h1>
 
-                    <!-- Preço -->
-                    <div class="mb-4">
-                        <span class="h3 text-success fw-bold">R$ @Model.ValorVenda.ToString("N2")</span>
+                    <div class="mb-4 d-flex flex-column">
+                        <span class="h1 text-miau-rosa fw-bolder">R$ @Model.ValorVenda.ToString("N2")</span>
+
                         @if (Model.ValorCusto > 0)
                         {
-                            <small class="text-muted d-block">
-                                Custo: R$ @Model.ValorCusto.ToString("N2") | 
-                                Margem: R$ @((Model.ValorVenda - Model.ValorCusto).ToString("N2"))
+                            <small class="text-muted mt-1">
+                                Parcele em até 12x sem juros!
                             </small>
                         }
                     </div>
 
-                    <!-- Estoque -->
                     <div class="mb-4">
-                        <span class="badge @(Model.Qtde > 0 ? "bg-success" : "bg-danger") fs-6">
+                        <span class="badge @(Model.Qtde > 0 ? "bg-success" : "bg-danger") fs-6 py-2 px-3">
                             @(Model.Qtde > 0 ? $"{Model.Qtde} unidades em estoque" : "Fora de estoque")
                         </span>
+                        @if (Model.Qtde > 0 && Model.Qtde <= 5)
+                        {
+                            <span class="ms-2 text-danger fw-bold"><i class="fas fa-exclamation-triangle me-1"></i>Últimas
+                                unidades!</span>
+                        }
                     </div>
 
-                    <!-- Descrição -->
                     @if (!string.IsNullOrEmpty(Model.Descricao))
                     {
-                        <div class="mb-4">
-                            <h5 class="fw-bold">Descrição</h5>
+                        <div class="mb-4 pt-3 border-top">
+                            <h5 class="fw-bold mb-2">Descrição</h5>
                             <p class="text-muted">@Model.Descricao</p>
                         </div>
                     }
 
-                    <!-- Ações -->
-                    <div class="d-grid gap-2">
+                    <div class="d-grid gap-2 pt-3 border-top">
                         @if (Model.Qtde > 0)
                         {
-                            <button class="btn btn-primary btn-lg">
+                            <button class="btn btn-lg btn-miau-rosa shadow-sm">
                                 <i class="fas fa-shopping-cart me-2"></i>Adicionar ao Carrinho
                             </button>
                         }
@@ -94,7 +117,8 @@
                                 <i class="fas fa-times me-2"></i>Produto Indisponível
                             </button>
                         }
-                        <a asp-action="Produtos" class="btn btn-outline-secondary">
+
+                        <a asp-action="Produtos" class="btn btn-outline-miau-rosa btn-lg">
                             <i class="fas fa-arrow-left me-2"></i>Continuar Comprando
                         </a>
                     </div>
@@ -103,13 +127,12 @@
         </div>
     </div>
 
-    <!-- Produtos Relacionados -->
-    <div class="row mt-5">
+    <div class="row mt-5 pt-4 border-top">
         <div class="col-12">
             <h3 class="fw-bold mb-4">Produtos Relacionados</h3>
-            <div class="row g-3" id="produtosRelacionados">
+            <div class="row g-4" id="produtosRelacionados">
                 <div class="col-12 text-center">
-                    <div class="spinner-border text-primary" role="status">
+                    <div class="spinner-border text-miau-rosa" role="status">
                         <span class="visually-hidden">Carregando...</span>
                     </div>
                     <p class="text-muted mt-2">Carregando produtos relacionados...</p>
@@ -122,10 +145,10 @@
 @section Scripts {
     <script>
         // Carregar produtos da mesma categoria
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const categoriaId = '@Model.CategoriaId';
             const produtoId = '@Model.Id';
-            
+
             if (categoriaId) {
                 fetch(`/Home/Produtos?categoriaId=${categoriaId}`)
                     .then(response => response.text())
@@ -133,42 +156,42 @@
                         const parser = new DOMParser();
                         const doc = parser.parseFromString(html, 'text/html');
                         const produtos = doc.querySelectorAll('.col-md-6.col-xl-4');
-                        
+
                         const container = document.getElementById('produtosRelacionados');
                         container.innerHTML = '';
-                        
+
                         let count = 0;
-                        
+
                         produtos.forEach(produto => {
                             // Não incluir o produto atual
                             const link = produto.querySelector('a[href*="Detalhes"]');
                             if (link && link.href.includes(`/Home/Detalhes/${produtoId}`)) {
                                 return;
                             }
-                            
+
                             if (count < 4) {
                                 container.appendChild(produto.cloneNode(true));
                                 count++;
                             }
                         });
-                        
+
                         if (count === 0) {
                             container.innerHTML = `
-                                <div class="col-12 text-center">
-                                    <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
-                                    <p class="text-muted">Nenhum produto relacionado encontrado.</p>
-                                </div>
-                            `;
+                                    <div class="col-12 text-center">
+                                        <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                                        <p class="text-muted">Nenhum produto relacionado encontrado.</p>
+                                    </div>
+                                `;
                         }
                     })
                     .catch(error => {
                         console.error('Erro ao carregar produtos relacionados:', error);
                         document.getElementById('produtosRelacionados').innerHTML = `
-                            <div class="col-12 text-center">
-                                <i class="fas fa-exclamation-triangle fa-2x text-muted mb-3"></i>
-                                <p class="text-muted">Erro ao carregar produtos relacionados.</p>
-                            </div>
-                        `;
+                                <div class="col-12 text-center">
+                                    <i class="fas fa-exclamation-triangle fa-2x text-muted mb-3"></i>
+                                    <p class="text-muted">Erro ao carregar produtos relacionados.</p>
+                                </div>
+                            `;
                     });
             }
         });

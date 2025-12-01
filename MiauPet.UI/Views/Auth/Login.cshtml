@@ -4,22 +4,32 @@
 }
 
 <div class="card formContainer p-5">
-    <h2 class="mb-4">Login</h2>
+    
+    <h2 class="mb-4">
+        Login
+    </h2>
     <form asp-action="Login" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger" hidden></div>
+        
         <div class="mb-3">
-            <label asp-for="Email" class="form-label"></label>
-            <input asp-for="Email" class="form-control" />
+            <label asp-for="Email" class="form-label">E-mail</label>
+            <input asp-for="Email" class="form-control form-control-lg" placeholder="Insira seu email" />
             <span asp-validation-for="Email" class="text-danger mt-2"></span>
         </div>
+
         <div class="mb-3">
-            <label asp-for="Senha" class="form-label"></label>
-            <input asp-for="Senha" type="password" class="form-control" />
-            <span asp-validation-for="Senha" class="text-danger mt-2"></span>
+            <label asp-for="Senha" class="form-label">Senha</label>
+            <input asp-for="Senha" type="password" class="form-control form-control-lg" placeholder="******" />
+            <span asp-validation-for="Senha" class="text-danger mt-2 small"></span>
         </div>
-        <button type="submit" class="btn btn-primary w-100 mt-1">Entrar</button>
+
+        <button type="submit" class="btn btn-primary btn-lg w-100 shadow-sm mt-1">
+            Entrar
+        </button>
         
-        <p class="text-center mt-3">Novo por aqui? <a asp-action="Registro" asp-controller="Auth">Crie sua conta!</a></p>
+        <p class="text-center mt-3">
+            Novo por aqui? 
+            <a asp-action="Registro" asp-controller="Auth">Crie sua conta!</a>
+        </p>
     </form>
 </div>
 

@@ -83,11 +83,11 @@ public class AppDbContext : IdentityDbContext<Usuario>
         {
             // Criar suas categorias
 
-            new Categoria {Id = 1, Nome = "Acessórios"},
-            new Categoria {Id = 2, Nome = "Alimentação"},
-            new Categoria {Id = 3, Nome = "Higiene"},
-            new Categoria {Id = 4, Nome = "Mimos"},
-            new Categoria {Id = 5, Nome = "Saúde"},
+            new Categoria {Id = 1, Nome = "Acessórios", Foto = "/img/categorias/acessorios.avif"},
+            new Categoria {Id = 2, Nome = "Alimentação", Foto = "/img/categorias/racao.png"},
+            new Categoria {Id = 3, Nome = "Higiene", Foto = "/img/categorias/higiene-pet.png"},
+            new Categoria {Id = 4, Nome = "Mimos", Foto="/img/categorias/mimos.jpg"},
+            new Categoria {Id = 5, Nome = "Saúde", Foto="/img/categorias/saude.webp",},
 
         };
         builder.Entity<Categoria>().HasData(categorias);
@@ -106,6 +106,7 @@ public class AppDbContext : IdentityDbContext<Usuario>
             // categoria acessorios
             new Produto {Id = 3, CategoriaId = 1, Nome = "Coleira de Gato AirTag", ValorCusto = 120.00m, ValorVenda = 100.00m, Qtde = 20, Descricao = "Coleira prática e segura com suporte para AirTag, garantindo rastreio confiável e conforto para o seu gato.",Destaque = true, Foto = "/img/produtos/acessorios/Ace_3_Gato_Airtag.jpg"},
             new Produto {Id = 4, CategoriaId = 1, Nome = "Vestido Pocoto em Jeans", ValorCusto = 110.00m, ValorVenda = 99.00m, Qtde = 12, Descricao = "Vestido para cães, em jeans de alta qualidade, com design moderno e confortável para o dia a dia.",Destaque = true, Foto = "/img/produtos/acessorios/Vestido-Pocoto-Pet-Kelly-em-Jeans.png"},
+            new Produto {Id = 12, CategoriaId = 1, Nome = "Bebedouro e Comedouro Chalesco", ValorCusto = 160.00m, ValorVenda = 140.00m, Qtde = 7, Descricao = "O Bebedouro e Comedouro Chalesco é um conjunto prático e funcional, ideal para cães e gatos, que combina o fornecimento de água e ração em uma única estrutura.",Destaque = false, Foto = "/img/produtos/acessorios/bebedouro.jpg"},
             
 
             //categoria saude
@@ -115,6 +116,9 @@ public class AppDbContext : IdentityDbContext<Usuario>
             
             //categoria Higiene
             new Produto{Id = 8, CategoriaId = 3, Nome = "Tapete Higiênico Meau Premium", ValorCusto= 115.00m, ValorVenda= 92.70m, Qtde= 5, Descricao = "Absorção superior e controle de odores, oferecendo praticidade e higiene para pets em casa.",Destaque = true, Foto ="/img/produtos/higiene/tapeteHigienico.webp"},
+            new Produto{Id = 9, CategoriaId = 3, Nome = "Eliminador de Odores Petmais", ValorCusto= 20.00m, ValorVenda= 12.00m, Qtde= 2, Descricao = "O Eliminador de Odores Petmais é a solução eficaz para neutralizar e eliminar rapidamente os cheiros de urina e fezes de cães e gatos em qualquer ambiente.",Destaque = false, Foto ="/img/produtos/higiene/eliminador-odores.jpg"},
+            new Produto{Id = 10, CategoriaId = 3, Nome = "Tiras Mastigáveis Virbac", ValorCusto= 113.90m, ValorVenda= 95.00m, Qtde= 5, Descricao = "As Tiras Mastigáveis Virbac VeggieDent FR3SH P são um delicioso e eficaz cuidado diário para a higiene oral de cães de pequeno porte (5 a 10 kg).",Destaque = false, Foto ="/img/produtos/higiene/Tiras_Mastigaveies.webp"},
+            new Produto{Id = 11, CategoriaId = 3, Nome = "Pó Higiênico Easy Pet", ValorCusto= 20.00m, ValorVenda= 12.00m, Qtde= 10, Descricao = "O Pó Higiênico Easy Pet é um moderno eliminador de odores e absorvente que transforma a limpeza dos dejetos de cães e gatos em uma tarefa rápida, prática e higiênica.",Destaque = false, Foto ="/img/produtos/higiene/Po_Higienico.jpg"},
 
             //mimos
             

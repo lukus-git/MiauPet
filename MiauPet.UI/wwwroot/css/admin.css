@@ -1,7 +1,20 @@
+/* Definição de Cores MiauPet */
 :root {
     --sidebar-width: 250px;
     --sidebar-collapsed-width: 70px;
     --transition-speed: 0.3s;
+    
+    --miau-pet-rosa: #ff69b4; /* Pink */
+    --miau-pet-azul: #007bff; /* Blue */
+    --miau-pet-amarelo: #214177; /* 🌟 NOVO: Azul Marinho (Cor Escura e Sóbria) */
+    
+    /* Variáveis do Bootstrap - Personalizadas */
+    --bs-primary: var(--miau-pet-azul);    /* Sidebar Active / Botões Principais */
+    --bs-secondary: #6c757d;
+    --bs-success: #28a745; 
+    --bs-info: #17a2b8;
+    --bs-warning: #ffc107;
+    --bg-danger: #dc3545;
 }
 
 /* ===== LAYOUT PRINCIPAL ===== */
@@ -11,6 +24,7 @@ body {
 
 .navbar {
     z-index: 1030;
+    /* Recomendação: Adicionar background-color: var(--bs-primary); para a barra de topo */
 }
 
 .main-content {
@@ -20,7 +34,7 @@ body {
     min-height: calc(100vh - 56px);
 }
 
-/* ===== SIDEBAR ===== */
+/* ===== SIDEBAR (Sem alterações, mantém o Azul MiauPet) ===== */
 .sidebar {
     position: fixed;
     top: 65px;
@@ -56,7 +70,7 @@ body {
 }
 
 .sidebar .nav-link.active {
-    background-color: var(--bs-primary);
+    background-color: var(--bs-primary); 
     color: var(--bs-white);
 }
 
@@ -74,7 +88,7 @@ body {
     color: var(--bs-white);
 }
 
-/* ===== COMPONENTES GLOBAIS ===== */
+/* ===== COMPONENTES GLOBAIS (Sem alterações) ===== */
 .card {
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
     border: 1px solid rgba(0, 0, 0, 0.125);
@@ -117,7 +131,7 @@ body {
     color: #495057;
 }
 
-/* ===== TABELAS ===== */
+/* ===== TABELAS (Sem alterações) ===== */
 .table th {
     font-weight: 600;
     border-bottom: 2px solid #dee2e6;
@@ -131,7 +145,7 @@ body {
     border-radius: 0.375rem;
 }
 
-/* ===== COMPONENTES ESPECÍFICOS ===== */
+/* ===== COMPONENTES ESPECÍFICOS (Sem alterações) ===== */
 .color-preview {
     min-width: 20px;
     height: 20px;
@@ -152,7 +166,7 @@ body {
     cursor: not-allowed;
 }
 
-/* ===== ESTADOS E UTILITÁRIOS ===== */
+/* ===== ESTADOS E UTILITÁRIOS (Sem alterações) ===== */
 .text-truncate-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -176,7 +190,7 @@ body {
     animation: spinner-border 0.75s linear infinite;
 }
 
-/* ===== RESPONSIVIDADE ===== */
+/* ===== RESPONSIVIDADE (Sem alterações) ===== */
 @media (max-width: 768px) {
     .sidebar {
         transform: translateX(-100%);
@@ -212,7 +226,7 @@ body {
     }
 }
 
-/* ===== ANIMAÇÕES ===== */
+/* ===== ANIMAÇÕES (Sem alterações) ===== */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -228,7 +242,7 @@ body {
     animation: fadeIn 0.3s ease-in-out;
 }
 
-/* ===== ESTADOS DE FORMULÁRIO ===== */
+/* ===== ESTADOS DE FORMULÁRIO (Sem alterações) ===== */
 .form-control:focus {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
     border-color: #80bdff;
@@ -242,7 +256,7 @@ body {
     border-color: #dc3545;
 }
 
-/* ===== ALERTAS PERSONALIZADOS ===== */
+/* ===== ALERTAS PERSONALIZADOS (Sem alterações) ===== */
 .alert {
     border: none;
     border-radius: 0.375rem;
@@ -267,21 +281,66 @@ body {
     background-color: #d1ecf1;
     color: #0c5460;
 }
-.text-success {
-    --bs-text-opacity: 1;
-    color: rgb(178 41 179) !important;
-}
 
+/* 🔴 AJUSTES DE CORES PARA OS CARDS DO DASHBOARD (MiauPet) */
+
+/* Clientes - Card 1 (bg-primary) -> AZUL MARINHO */
 .bg-primary {
     --bs-bg-opacity: 1;
-    background-color: rgb(251, 255, 0) !important;
+    background-color: var(--miau-pet-amarelo) !important; /* AGORA É #00215C */
+    color: white !important; /* Texto branco para contraste no fundo escuro */
 }
+
+/* Produtos - Card 2 (bg-success) -> Rosa MiauPet (OK) */
+.bg-success {
+    --bs-bg-opacity: 1;
+    background-color: var(--miau-pet-rosa) !important;
+    color: white !important;
+}
+
+/* Pedidos - Card 3 (bg-warning) -> Azul MiauPet (OK) */
+.bg-warning {
+    --bs-bg-opacity: 1;
+    background-color: var(--miau-pet-azul) !important;
+    color: white !important;
+}
+
+/* Receita - Card 4 (bg-info) -> Manter o padrão (OK) */
+.bg-info {
+    --bs-bg-opacity: 1;
+    background-color: #17a2b8 !important;
+    color: white !important;
+}
+
+/* 🔴 AJUSTES DE CORES PARA BADGES DE STATUS NA TABELA */
+
+/* Status Concluído (badge bg-success) -> Rosa MiauPet (OK) */
+.badge.bg-success {
+    /* Usando o Azul MiauPet como cor de sucesso */
+    background-color: var(--miau-pet-azul) !important; 
+    color: white !important;
+}
+
+/* Status Falhou (badge bg-danger) -> AGORA É VERMELHO PADRÃO */
+.badge.bg-danger {
+    /* Usando a cor de perigo padrão do Bootstrap (Vermelho) */
+    background-color: var(--bs-danger) !important; 
+    color: white !important;
+}
+
+/* Ajuste de cor para texto que usa a classe text-success em outros lugares (OK) */
+.text-success {
+    --bs-text-opacity: 1;
+    color: #28a745 !important;
+}
+
+/* Ajuste da cor da marca na navbar (OK) */
 .navbar-brand {
     padding-top: var(--bs-navbar-brand-padding-y);
     padding-bottom: var(--bs-navbar-brand-padding-y);
     margin-right: var(--bs-navbar-brand-margin-end);
     font-size: var(--bs-navbar-brand-font-size);
-    color: #741111;
+    color: white;
     text-decoration: none;
     white-space: nowrap;
 }
